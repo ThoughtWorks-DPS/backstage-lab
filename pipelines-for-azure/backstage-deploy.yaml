@@ -1,0 +1,34 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: backstage-group
+
+steps:
+  - bash: |
+      cat app-config.yaml |grep "baseUrl:"
+  - task: Kubernetes@1
+    displayName: Create Namespace
+    inputs:
+      connectionType: Azure Resource Manager
+      azureSubscriptionEndpoint: service-connection-k8s
+      azureResourceGroup: MyResourceGroup
+      kubernetesCluster: aks64d8
+      command: apply
+      arguments: -f kubernetes/namespace.yaml
+    
+  - task: Kubernetes@1
+    displayName: Create backstage deployment and service
+    inputs:
+      connectionType: Azure Resource Manager
+      azureSubscriptionEndpoint: service-connection-k8s
+      azureResourceGroup: MyResourceGroup
+      kubernetesCluster: aks64d8
+      namespace: backstagehttp
+      command: apply
+      arguments: -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
+      secretType: generic
+      secretArguments: --from-literal=GITHUB_TOKEN=$(GITHUB-TOKEN) --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$(AZURE-TECHDOCS-STORAGE-KEY)
+      secretName: backstage-secrets

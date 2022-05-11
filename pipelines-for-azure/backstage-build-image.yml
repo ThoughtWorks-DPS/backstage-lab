@@ -1,0 +1,23 @@
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - kubernetes
+    - pipelines
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Docker@2
+  displayName: Build and Push backstage image to ACR
+  inputs:
+    command: buildAndPush
+    containerRegistry: backstage-container-reg
+    repository: backstage
+    tags: |
+      latest
+      $(Build.BuildId)
+  

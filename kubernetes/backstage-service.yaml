@@ -1,0 +1,14 @@
+# kubernetes/backstage-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage
+  namespace: backstagehttp
+spec:
+  selector:
+    app: backstage
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

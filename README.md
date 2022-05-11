@@ -1,92 +1,97 @@
-# Backstage Poc .
+![headline](docs/assets/headline.png)
 
+# ThoughtWorks Backstage
 
+This is a base application of the backstage open source project.  https://backstage.io/
 
-## Getting started
+Backstage is an open platform for building developer portals. Powered by a centralized software catalog, Backstage restores order to your microservices and infrastructure and enables your product teams to ship high-quality code quickly — without compromising autonomy.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Backstage unifies all your infrastructure tooling, services, and documentation to create a streamlined development environment from end to end.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Out of the box, Backstage includes:
 
-## Add your files
+Backstage Software Catalog for managing all your software (microservices, libraries, data pipelines, websites, ML models, etc.)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Backstage Software Templates for quickly spinning up new projects and standardizing your tooling with your organization’s best practices
+
+Backstage TechDocs for making it easy to create, maintain, find, and use technical documentation, using a "docs like code" approach
+
+Plus, a growing ecosystem of open source plugins that further expand Backstage’s customizability and functionality
+
+# Key Concepts
+- Backstage works as a decentralized system based on YAML files.  These files are generally kept in each piece of software's codebase and are referenced by Backstage.  This allows for each team/individual to have local ownership of the descriptions and documentation for their software.  
+
+- Items are added to the Software Catalog and are associated with one of seven 'Kinds', Component, System, API, Group, User, Resource, Location, Domain.  Custom Kinds can be added along with changing the show name of the base 7.  Items can be added through the UI by using a Template or by Registering Existing API.  They can also be hard coded into the app-config.yaml file.  These items should be limited to things that rarely change like Location, Group(Team), or System.
+```
+catalog:
+  rules:
+    - allow: [Component, System, API, Group, User, Resource, Location]
+  locations:
+    # Backstage example components
+    - type: url
+      target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-components.yaml
+```
+
+- Backstage requires a Postgres SQL database.  This is configured in the app-config.yaml file.  On Backstage starting, it will check the database for the needed Databases/Tables.  If these do not exist it will create them automatically.
+```
+# config options: https://node-postgres.com/api/client
+database:
+  client: pg
+  connection:
+    host: 34.72.61.151
+    port: 5432
+    user: someuser
+    password: $omePassW0rd
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/b6052/backstage-poc.git
-git branch -M main
-git push -uf origin main
+
+
+# Usage
+This repo has all of the necessary components to demo backstage or use as a starter kit for deployment.
+
+
+## How to run application locally
+Clone the repo and run the following commands from the root directory
+
+```
+# Install yarn
+yarn install
+
+# this will start the front and backend along with opening a browser window to http://localhost:3000
+yarn dev
 ```
 
-## Integrate with your tools
+## How to create an Image to deploy
+Clone the repo and follow the steps below
 
-- [ ] [Set up project integrations](https://gitlab.com/b6052/backstage-poc/-/settings/integrations)
+```
+# Install yarn in root directory
+yarn install
 
-## Collaborate with your team
+# move to the backend directory
+cd packages/backend
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+# install yarn
+yarn install
 
-## Test and Deploy
+# tsc outputs type definitions to dist-types/ in the repo root, which are then consumed by the build
+yarn tsc
 
-Use the built-in continuous integration in GitLab.
+# Build all packages and in the end bundle them all up into the packages/backend/dist folder.
+yarn build
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Now build the image.  The Dockerfile is located at packages/backend/Dockerfile, but needs to be executed with the root of the repo as the build context, in order to get access to the root yarn.lock and package.json, along with any other files that might be needed, such as .npmrc
 
-***
+From the root directory now run:
 
-# Editing this README
+```
+docker image build . -f packages/backend/Dockerfile --tag backstage
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+That should be it.  To try out the image locally run:
+```
+docker run -it -p 7000:7000 backstage
+```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+For more information check out the Backstage site - https://backstage.io/docs/deployment/

@@ -1,0 +1,38 @@
+image: docker:latest
+
+variables:
+  PASSWORD: wVM8Q~PAWYTA5DTznor2UCM4kZrct8LMHvjEhcCA
+  TENANT_ID: 6fecd065-cb31-41b4-985c-60f2fdf1720f
+  APP_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
+  #CLIENT_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
+  #ACR_ID: *******************
+
+stages:
+  - build
+  #- deploy
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+
+build_staging_image:
+  stage: build
+  image: microsoft/azure-cli
+  script:
+    - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
+    - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
+    - docker build . -t backstage
+    - docker tag backstage backstagepp.azurecr.io/backstage:new
+    - docker push backstagepp.azurecr.io/backstage:new
+
+# deploy:develop:
+#   stage: deploy
+#   script:
+#     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
+#     - az acr login --name backstagepp
+#     #- az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
+#     - kubectl apply -f azure-vote-all-in-one-redis.yaml
+#   only:
+#     - develop
