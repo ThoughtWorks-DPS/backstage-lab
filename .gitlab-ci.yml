@@ -20,9 +20,9 @@ build_staging_image:
   stage: build
   script:
     - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
-    - docker build . -t backstage
-    - docker tag backstage backstagepp.azurecr.io/backstage:new
-    - docker push backstagepp.azurecr.io/backstage:new
+    # - docker build . -t backstage
+    # - docker tag backstage backstagepp.azurecr.io/backstage:new
+    # - docker push backstagepp.azurecr.io/backstage:new
 
 deploy:
   stage: deploy
