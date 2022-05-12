@@ -1,4 +1,4 @@
-image: docker:latest
+image: mcr.microsoft.com/azure-cli
 
 variables:
   PASSWORD: $SERVICE_PRINCIPAL_PASSWORD
@@ -12,11 +12,11 @@ stages:
   #- build
   - deploy
 
-services:
-  - docker:dind
+# services:
+#   - docker:dind
 
-before_script:
-  - docker info
+# before_script:
+#   - docker info
 
 # build_staging_image:
 #   stage: build
@@ -30,7 +30,7 @@ before_script:
 
 deploy:
   stage: deploy
-  image: mcr.microsoft.com/azure-cli
+  # image: mcr.microsoft.com/azure-cli
   script:
     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
     #- az acr login --name backstagepp
