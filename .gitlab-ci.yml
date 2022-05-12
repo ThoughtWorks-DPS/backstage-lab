@@ -28,7 +28,7 @@ before_script:
 #     - docker tag backstage backstagepp.azurecr.io/backstage:new
 #     - docker push backstagepp.azurecr.io/backstage:new
 
-deploy:develop:
+deploy:
   stage: deploy
   image: mcr.microsoft.com/azure-cli
   script:
@@ -40,5 +40,4 @@ deploy:develop:
     - kubectl apply -f kubernetes/namespace.yaml
     - kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
     - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
-  only:
-    - develop
+
