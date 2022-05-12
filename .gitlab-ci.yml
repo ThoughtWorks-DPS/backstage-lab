@@ -29,11 +29,10 @@ deploy:
   image: mcr.microsoft.com/azure-cli
   script:
     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
-    #- az account set --subscription $SUBSCRIPTION
     - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
     - az aks install-cli
     - kubectl version
     - kubectl apply -f kubernetes/namespace.yaml
-    - kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
+    #- kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
     - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
 
