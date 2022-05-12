@@ -36,7 +36,7 @@ deploy:
     #- az acr login --name backstagepp
     #- az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
     - az account set --subscription $SUBSCRIPTION
-    - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
+    #- az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
     - az aks install-cli
     - kubectl version
     - kubectl apply -f kubernetes/namespace.yaml
