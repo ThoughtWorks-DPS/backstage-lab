@@ -32,10 +32,10 @@ deploy:
     - kubectl version
     - kubectl apply -f kubernetes/namespace.yaml
     - |
-        if [[ $SEC ==  "" ]]; then
+        if [[ `kubectl -n backstagehttp get secrets |grep "backstage-secrets"` ==  "" ]]; then
           kubectl -n backstagehttp create secret generic backstage-secrets \
           --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN \
-          --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY; fi
+          --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
         else
           echo "Secret already present
         fi"
