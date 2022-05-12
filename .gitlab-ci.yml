@@ -29,7 +29,7 @@ deploy:
   image: mcr.microsoft.com/azure-cli
   script:
     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
-    - az account set --subscription $SUBSCRIPTION
+    #- az account set --subscription $SUBSCRIPTION
     - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
     - az aks install-cli
     - kubectl version
