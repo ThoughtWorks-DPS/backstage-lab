@@ -1,40 +1,34 @@
-image: mcr.microsoft.com/azure-cli
+image: docker:latest
 
 variables:
   PASSWORD: $SERVICE_PRINCIPAL_PASSWORD
   TENANT_ID: $TENANT_ID
   APP_ID: $APP_ID
-  #CLIENT_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
-  #ACR_ID: *******************
   SUBSCRIPTION: 3344a922-f246-4f27-a6f1-3c85586f7b99
 
 stages:
-  #- build
+  - build
   - deploy
 
-# services:
-#   - docker:dind
+services:
+  - docker:dind
 
 # before_script:
 #   - docker info
 
-# build_staging_image:
-#   stage: build
-#   # image: microsoft/azure-cli
-#   script:
-#     # - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
-#     - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
-#     - docker build . -t backstage
-#     - docker tag backstage backstagepp.azurecr.io/backstage:new
-#     - docker push backstagepp.azurecr.io/backstage:new
+build_staging_image:
+  stage: build
+  script:
+    - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
+    - docker build . -t backstage
+    - docker tag backstage backstagepp.azurecr.io/backstage:new
+    - docker push backstagepp.azurecr.io/backstage:new
 
 deploy:
   stage: deploy
-  # image: mcr.microsoft.com/azure-cli
+  image: mcr.microsoft.com/azure-cli
   script:
     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
-    #- az acr login --name backstagepp
-    #- az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
     - az account set --subscription $SUBSCRIPTION
     - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
     - az aks install-cli
