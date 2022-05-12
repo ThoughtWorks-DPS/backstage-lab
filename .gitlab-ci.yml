@@ -32,8 +32,14 @@ deploy:
     - kubectl version
     - kubectl apply -f kubernetes/namespace.yaml
     - SEC=$(kubectl -n backstagehttp get secrets |grep -e backstage-secrets)
-    - if [[ -z $SEC ]]; then kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY; fi
-    - if [[ ! -z $SEC ]]; then echo "Secret already present; fi"
+    - |-
+  
+        if [[ $SEC ==  "" ]]; then
+          kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY; fi
+        else
+          echo "Secret already present
+        fi"
+  
     - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
     - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
     - VAR=$(echo ${VAR// /})
