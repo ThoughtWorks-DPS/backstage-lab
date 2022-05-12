@@ -38,7 +38,7 @@ deploy:
           --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
         else
           echo "Secret already present
-        fi"
+        fi
   
     - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
     - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
