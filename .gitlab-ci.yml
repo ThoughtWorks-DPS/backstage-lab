@@ -1,9 +1,9 @@
 image: docker:latest
 
 variables:
-  PASSWORD: wVM8Q~PAWYTA5DTznor2UCM4kZrct8LMHvjEhcCA
-  TENANT_ID: 6fecd065-cb31-41b4-985c-60f2fdf1720f
-  APP_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
+  PASSWORD: $SERVICE_PRINCIPAL_PASSWORD
+  TENANT_ID: $TENANT_ID
+  APP_ID: $APP_ID
   #CLIENT_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
   #ACR_ID: *******************
 
