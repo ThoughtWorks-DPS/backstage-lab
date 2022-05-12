@@ -6,6 +6,7 @@ variables:
   APP_ID: $APP_ID
   #CLIENT_ID: 657cb108-5c75-4ce5-81c7-afc404f24549
   #ACR_ID: *******************
+  SUBSCRIPTION: 3344a922-f246-4f27-a6f1-3c85586f7b99
 
 stages:
   - build
@@ -27,12 +28,17 @@ build_staging_image:
     - docker tag backstage backstagepp.azurecr.io/backstage:new
     - docker push backstagepp.azurecr.io/backstage:new
 
-# deploy:develop:
-#   stage: deploy
-#   script:
-#     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
-#     - az acr login --name backstagepp
-#     #- az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
-#     - kubectl apply -f azure-vote-all-in-one-redis.yaml
-#   only:
-#     - develop
+deploy:develop:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
+    #- az acr login --name backstagepp
+    #- az role assignment create --assignee $CLIENT_ID --role Reader --scope $ACR_ID
+    #- az account set --subscription $SUBSCRIPTION
+    - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
+    - kubectl apply -f kubernetes/namespace.yaml
+    - kubectl -n backstagehttp create secret generic backstage-secrets --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
+    - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
+  only:
+    - develop
