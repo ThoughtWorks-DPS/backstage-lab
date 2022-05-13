@@ -81,3 +81,4 @@ deployWebapp:
         - ".gitlab-ci.yml"
         - kubernetes
       when: never
+    - when: always
