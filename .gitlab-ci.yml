@@ -5,6 +5,9 @@ variables:
   TENANT_ID: $TENANT_ID
   APP_ID: $APP_ID
   SUBSCRIPTION: 3344a922-f246-4f27-a6f1-3c85586f7b99
+  API_TOKEN: $DEPLOYMENT_TOKEN
+  APP_PATH: '$CI_PROJECT_DIR/packages/app'
+  OUTPUT_PATH: '$CI_PROJECT_DIR/dist'
 
 stages:
   - build
@@ -47,3 +50,9 @@ deploy:
     - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
     - VAR=$(echo ${VAR// /})
     - echo "====> Access Backstage on - http://$VAR"
+
+deploy:
+  stage: deploy
+  image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+  script:
+    - echo "App deployed successfully."
