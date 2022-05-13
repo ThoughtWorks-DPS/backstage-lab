@@ -59,6 +59,12 @@ deploy:
     # - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
     # - VAR=$(echo ${VAR// /})
     # - echo "====> Access Backstage on - http://$VAR"
+  rules:
+    - changes:
+        - terraform
+        - pipelines-for-azure
+        - ".gitlab-ci.yml"
+      when: never
 
 deployWebapp:
   stage: deployWebapp
@@ -70,4 +76,5 @@ deployWebapp:
         - terraform
         - pipelines-for-azure
         - ".gitlab-ci.yml"
+        - kubernetes
       when: never
