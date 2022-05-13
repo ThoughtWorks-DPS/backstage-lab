@@ -70,6 +70,9 @@ deployWebapp:
   stage: deployWebapp
   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   script:
+    - pwd
+    - ls -ltr
+    - echo $CI_PROJECT_DIR
     - echo "App deployed successfully."
   rules:
     - changes:
