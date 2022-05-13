@@ -74,11 +74,11 @@ deployWebapp:
     - ls -ltr
     - echo $CI_PROJECT_DIR
     - echo "App deployed successfully."
-  rules:
-    - changes:
-        - terraform
-        - pipelines-for-azure
-        - ".gitlab-ci.yml"
-        - kubernetes
-      when: never
-    - when: always
+  # rules:
+  #   - changes:
+  #       - terraform
+  #       - pipelines-for-azure
+  #       - ".gitlab-ci.yml"
+  #       - kubernetes
+  #     when: never
+  
