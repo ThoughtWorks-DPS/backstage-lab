@@ -92,7 +92,7 @@ deployWebapp:
     - cd $APP_PATH
     - pwd
     - yarn build
-    - /bin/staticsites/StaticSitesClient upload --verbose --app $OUTPUT_PATH --skipAppBuild true --apiToken DEPLOYMENT_TOKEN  
+    - /bin/staticsites/StaticSitesClient upload --verbose --app $OUTPUT_PATH --skipAppBuild true --apiToken $DEPLOYMENT_TOKEN  
     - echo "App deployed successfully."
   # rules:
   #   - changes:
