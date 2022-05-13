@@ -16,7 +16,7 @@ services:
 build_staging_image:
   stage: build
   script:
-    - echo "====> Initiating Docker Build process"
+    - echo "===> Initiating Docker Build process"
     - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
     - docker build . -t backstage
     - docker tag backstage backstagepp.azurecr.io/backstage:new
