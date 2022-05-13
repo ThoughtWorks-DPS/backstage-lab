@@ -10,7 +10,7 @@ variables:
   OUTPUT_PATH: '$APP_PATH/dist'
 
 stages:
-  - test
+  # - test
   - build
   - deploy
   - deployWebapp
@@ -19,13 +19,13 @@ services:
   - docker:dind
 
 
-test:
-  stage: test
-  script:
-    - echo "hey akshar"
-    - pwd
-    - ls -ltr
-    - echo $CI_PROJECT_DIR
+# test:
+#   stage: test
+#   script:
+#     - echo "hey akshar"
+#     - pwd
+#     - ls -ltr
+#     - echo $CI_PROJECT_DIR
 
 build_staging_image:
   stage: build
@@ -82,6 +82,10 @@ deployWebapp:
   image: mcr.microsoft.com/appsvc/staticappsclient:stable
   script:
     - pwd
+    - curl -sL https://deb.nodesource.com/setup_16.x | bash -
+    - apt-get install -y nodejs
+    - node -v
+    - yarn -v
     - ls -ltr
     - echo $CI_PROJECT_DIR
     - yarn install
