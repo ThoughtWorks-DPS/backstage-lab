@@ -26,6 +26,14 @@ build_staging_image:
     # - docker tag backstage backstagepp.azurecr.io/backstage:new
     # - echo "====> Initiating Docker image push to ACR"
     # - docker push backstagepp.azurecr.io/backstage:new
+  rules:
+    - changes:
+        - kubernetes
+        - terraform
+        - pipelines-for-azure
+        - ".gitlab-ci.yml"
+      when: never
+
 
 deploy:
   stage: deploy
@@ -57,3 +65,9 @@ deployWebapp:
   image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   script:
     - echo "App deployed successfully."
+  rules:
+    - changes:
+        - terraform
+        - pipelines-for-azure
+        - ".gitlab-ci.yml"
+      when: never
