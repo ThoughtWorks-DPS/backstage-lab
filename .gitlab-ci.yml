@@ -10,12 +10,22 @@ variables:
   OUTPUT_PATH: '$CI_PROJECT_DIR/dist'
 
 stages:
+  - test
   - build
   - deploy
   - deployWebapp
 
 services:
   - docker:dind
+
+
+test:
+  stage: test
+  script:
+    - echo "hey akshar"
+    - pwd
+    - ls -ltr
+    - echo $CI_PROJECT_DIR
 
 build_staging_image:
   stage: build
