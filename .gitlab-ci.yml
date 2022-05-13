@@ -7,7 +7,7 @@ variables:
   SUBSCRIPTION: 3344a922-f246-4f27-a6f1-3c85586f7b99
   API_TOKEN: $DEPLOYMENT_TOKEN
   APP_PATH: '$CI_PROJECT_DIR/packages/app'
-  OUTPUT_PATH: '$CI_PROJECT_DIR/dist'
+  OUTPUT_PATH: '$APP_PATH/dist'
 
 stages:
   - test
@@ -78,11 +78,17 @@ deploy:
 
 deployWebapp:
   stage: deployWebapp
-  image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+  # image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
+  image: mcr.microsoft.com/appsvc/staticappsclient:stable
   script:
     - pwd
     - ls -ltr
     - echo $CI_PROJECT_DIR
+    - yarn install
+    - cd $APP_PATH
+    - pwd
+    - yarn build
+    - /bin/staticsites/StaticSitesClient upload --verbose --app $OUTPUT_PATH --skipAppBuild true --apiToken DEPLOYMENT_TOKEN  
     - echo "App deployed successfully."
   # rules:
   #   - changes:
