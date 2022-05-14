@@ -41,7 +41,7 @@ Build & Publish backend image to ACR:
         - kubernetes
         - terraform
         - pipelines-for-azure
-        # - ".gitlab-ci.yml"
+        - ".gitlab-ci.yml"
       when: never
     - when: always
 
@@ -74,7 +74,7 @@ Deploy backend to AKS:
     - changes:
         - terraform
         - pipelines-for-azure
-        # - ".gitlab-ci.yml"
+        - ".gitlab-ci.yml"
       when: never
     - when: always
 
@@ -96,11 +96,12 @@ Deploy frontend to StaticWebApp:
     - yarn build
     - /bin/staticsites/StaticSitesClient upload --verbose --app $OUTPUT_PATH --skipAppBuild true --apiToken $DEPLOYMENT_TOKEN  
     - echo "App deployed successfully."
-  # rules:
-  #   - changes:
-  #       - terraform
-  #       - pipelines-for-azure
-  #       - ".gitlab-ci.yml"
-  #       - kubernetes
-  #     when: never
+  rules:
+    - changes:
+        - terraform
+        - pipelines-for-azure
+       # - ".gitlab-ci.yml"
+        - kubernetes
+      when: never
+    - when: always
   
