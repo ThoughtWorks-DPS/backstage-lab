@@ -4,24 +4,24 @@ resource "azurerm_resource_group" "backstage-rg" {
     location    = var.region
 }
 
-# Azure Conatiner Registry creation
-resource "azurerm_container_registry" "backstage-acr" {
-  name                = var.acr_name
-  resource_group_name = "backstage-deployment"
-  location            = azurerm_resource_group.backstage-rg.location
-  sku                 = "basic"
-  admin_enabled       = false
-#   georeplications {
-#     location                = "East US"
-#     zone_redundancy_enabled = false
-#     tags                    = {}
-#   }
-#   georeplications {
-#     location                = "westeurope"
-#     zone_redundancy_enabled = true
-#     tags                    = {}
-#   }
-}
+# # Azure Conatiner Registry creation
+# resource "azurerm_container_registry" "backstage-acr" {
+#   name                = var.acr_name
+#   resource_group_name = "backstage-deployment"
+#   location            = azurerm_resource_group.backstage-rg.location
+#   sku                 = "basic"
+#   admin_enabled       = false
+# #   georeplications {
+# #     location                = "East US"
+# #     zone_redundancy_enabled = false
+# #     tags                    = {}
+# #   }
+# #   georeplications {
+# #     location                = "westeurope"
+# #     zone_redundancy_enabled = true
+# #     tags                    = {}
+# #   }
+# }
 
 # Azure Kunernetes Servie cluster creation
 resource "azurerm_kubernetes_cluster" "backstageaks-cluster" {
@@ -49,9 +49,9 @@ resource "azurerm_kubernetes_cluster" "backstageaks-cluster" {
 }
 
 # Linking ACR TO AKS
-resource "azurerm_role_assignment" "acr-aks-assignment" {
-  principal_id                     = "1fe32163-34b4-49e6-bb59-57128082d689" #objectId of Terraform Service Principal
-  role_definition_name             = "AcrPull"
-  scope                            = azurerm_container_registry.backstage-acr.id
-  skip_service_principal_aad_check = true
-}
+# resource "azurerm_role_assignment" "acr-aks-assignment" {
+#   principal_id                     = "1fe32163-34b4-49e6-bb59-57128082d689" #objectId of Terraform Service Principal
+#   role_definition_name             = "AcrPull"
+#   scope                            = azurerm_container_registry.backstage-acr.id
+#   skip_service_principal_aad_check = true
+# }
