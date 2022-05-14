@@ -32,6 +32,7 @@ backend:
   # get this ip by 
   # > kubectl get services -n <namespace>
   baseUrl: http://20.252.40.201
+  #baseUrl: http://___PUBLIC_IP___
   listen:
     port: 7007
   database:
@@ -43,6 +44,7 @@ backend:
     store: memory
   cors:
     origin: http://20.252.40.201
+    #origin: http://___PUBLIC_IP___
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:

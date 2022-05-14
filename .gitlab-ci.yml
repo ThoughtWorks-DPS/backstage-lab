@@ -10,7 +10,6 @@ variables:
   OUTPUT_PATH: '$APP_PATH/dist'
 
 stages:
-  # - test
   - build
   - deploy
   #- deployWebapp
@@ -18,17 +17,18 @@ stages:
 services:
   - docker:dind
 
-
-# test:
-#   stage: test
-#   script:
-#     - echo "hey akshar"
-#     - pwd
-#     - ls -ltr
-#     - echo $CI_PROJECT_DIR
-
 Build & Publish backend image to ACR:
   stage: build
+  before_script:
+    - echo" ===> Steps to find out the public ip of load balancer"
+
+    ##TODO  - Figure out a way to either hardcode RG and name for public ip resource or find it at runtime programmatically
+
+    #- apt-get install -y azure-cli
+    
+    #- public_ip=$(az network public-ip show -n kubernetes-a5eb06a72fea24ebfb0a2847afd66c15 -g mc_backstage-poc-rg_backstage-aks-cluster_eastus |jq .ipAddress)
+    #- echo $public_ip
+    #- sed -i "s/___PUBLIC_IP___/$public_ip/g" app-config.yaml
   script:
     - echo "===> Initiating Docker Build process"
     - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
