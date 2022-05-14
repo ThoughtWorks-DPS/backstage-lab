@@ -43,6 +43,7 @@ Build & Publish backend image to ACR:
         - pipelines-for-azure
         # - ".gitlab-ci.yml"
       when: never
+    - when: always
 
 
 Deploy backend to AKS:
@@ -75,6 +76,7 @@ Deploy backend to AKS:
         - pipelines-for-azure
         # - ".gitlab-ci.yml"
       when: never
+    - when: always
 
 Deploy frontend to StaticWebApp:
   stage: deploy
