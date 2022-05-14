@@ -13,7 +13,7 @@ stages:
   # - test
   - build
   - deploy
-  - deployWebapp
+  #- deployWebapp
 
 services:
   - docker:dind
@@ -27,7 +27,7 @@ services:
 #     - ls -ltr
 #     - echo $CI_PROJECT_DIR
 
-build_staging_image:
+Build & Publish backend image to ACR:
   stage: build
   script:
     - echo "===> Initiating Docker Build process"
@@ -41,11 +41,11 @@ build_staging_image:
         - kubernetes
         - terraform
         - pipelines-for-azure
-        - ".gitlab-ci.yml"
+        # - ".gitlab-ci.yml"
       when: never
 
 
-deploy:
+Deploy backend to AKS:
   stage: deploy
   image: mcr.microsoft.com/azure-cli
   script:
@@ -73,11 +73,11 @@ deploy:
     - changes:
         - terraform
         - pipelines-for-azure
-        - ".gitlab-ci.yml"
+        # - ".gitlab-ci.yml"
       when: never
 
-deployWebapp:
-  stage: deployWebapp
+Deploy frontend to StaticWebApp:
+  stage: deploy
   # image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   image: mcr.microsoft.com/appsvc/staticappsclient:stable
   script:
