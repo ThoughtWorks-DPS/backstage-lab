@@ -12,7 +12,7 @@ variables:
 stages:
   - build
   - deploy
-  #- deployWebapp
+  - deployWebapp
 
 services:
   - docker:dind
@@ -78,18 +78,19 @@ Deploy backend to AKS:
     - changes:
         - terraform
         - pipelines-for-azure
-        - ".gitlab-ci.yml"
+        #- ".gitlab-ci.yml"
       when: never
     - when: always
 
 Deploy frontend to StaticWebApp:
-  stage: deploy
+  stage: deployWebapp
   # image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   image: mcr.microsoft.com/appsvc/staticappsclient:stable
   dependencies:
     - Deploy backend to AKS
   script:
     - sed -i "s/___BACKEND_SERVICE_IP___/$PUBLIC_IP/g" app-config.yaml
+    - echo $PUBLIC_IP
     - cat app-config.yaml | grep $PUBLIC_IP
     - curl -sL https://deb.nodesource.com/setup_16.x | bash -
     - apt-get install -y nodejs
@@ -102,7 +103,7 @@ Deploy frontend to StaticWebApp:
     - changes:
         - terraform
         - pipelines-for-azure
-        - ".gitlab-ci.yml"
+        #- ".gitlab-ci.yml"
         - kubernetes
       when: never
     - when: always
