@@ -31,8 +31,8 @@ backend:
   # this is a external ip of loadbalancer in Azure portal 
   # get this ip by 
   # > kubectl get services -n <namespace>
-  baseUrl: http://20.252.40.201
-  #baseUrl: http://___PUBLIC_IP___
+  #baseUrl: http://20.252.40.201
+  baseUrl: http://___BACKEND_SERVICE_IP___
   listen:
     port: 7007
   database:
@@ -43,8 +43,8 @@ backend:
   cache:
     store: memory
   cors:
-    origin: http://20.252.40.201
-    #origin: http://___PUBLIC_IP___
+    #origin: http://20.252.40.201
+    origin: http://___BACKEND_SERVICE_IP___
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
