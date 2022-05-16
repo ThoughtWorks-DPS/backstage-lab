@@ -32,16 +32,16 @@ Build & Publish backend image to ACR:
   script:
     - echo "===> Initiating Docker Build process"
     - docker login backstagepp.azurecr.io -u $APP_ID -p $PASSWORD
-    # - docker build . -t backstage
-    # - docker tag backstage backstagepp.azurecr.io/backstage:new
-    # - echo "====> Initiating Docker image push to ACR"
-    # - docker push backstagepp.azurecr.io/backstage:new
+    - docker build . -t backstage
+    - docker tag backstage backstagepp.azurecr.io/backstage:new
+    - echo "====> Initiating Docker image push to ACR"
+    - docker push backstagepp.azurecr.io/backstage:new
   rules:
     - changes:
         - kubernetes
         - terraform
         - pipelines-for-azure
-        - ".gitlab-ci.yml"
+        #- ".gitlab-ci.yml"
       when: never
     - when: always
 
