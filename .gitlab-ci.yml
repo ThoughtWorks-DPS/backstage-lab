@@ -53,7 +53,7 @@ Deploy backend to AKS:
     # - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
     # - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
     # - echo "====> Installing kubectl"
-    # - az aks install-cli
+    - az aks install-cli
     # - echo "====> Creating kubernetes namespace. Calling template file"
     # - kubectl apply -f kubernetes/namespace.yaml
     # - |
