@@ -19,8 +19,8 @@ services:
 
 Build & Publish backend image to ACR:
   stage: build
-  before_script:
-    - echo" ===> Steps to find out the public ip of load balancer"
+  # before_script:
+  #   - echo" ===> Steps to find out the public ip of load balancer"
 
     ##TODO  - Figure out a way to either hardcode RG and name for public ip resource or find it at runtime programmatically
 
