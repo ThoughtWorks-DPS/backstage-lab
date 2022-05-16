@@ -17,7 +17,7 @@ stages:
 services:
   - docker:dind
 
-.Build & Publish backend image to ACR:
+Build & Publish backend image to ACR:
   stage: build
   before_script:
     - echo" ===> Steps to find out the public ip of load balancer"
@@ -45,28 +45,27 @@ services:
       when: never
     - when: always
 
-
 Deploy backend to AKS:
   stage: deploy
   image: mcr.microsoft.com/azure-cli
   script:
     - az login --service-principal --username $APP_ID --password $PASSWORD --tenant $TENANT_ID
     - az aks get-credentials --resource-group backstage-aks_group --name backstage-aks
-    # - echo "====> Installing kubectl"
+    - echo "====> Installing kubectl"
     - az aks install-cli
-    # - echo "====> Creating kubernetes namespace. Calling template file"
-    # - kubectl apply -f kubernetes/namespace.yaml
-    # - |
-    #     if [[ `kubectl -n backstagehttp get secrets |grep "backstage-secrets"` ==  "" ]]; then
-    #       echo "=======> Creating secret for backstage"
-    #       kubectl -n backstagehttp create secret generic backstage-secrets \
-    #       --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN \
-    #       --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
-    #     else
-    #       echo "=======> Secret already present"
-    #     fi
-    # - echo "====> Creating kubernetes backstage depoloyment and service. Calling template file"
-    # - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
+    - echo "====> Creating kubernetes namespace. Calling template file"
+    - kubectl apply -f kubernetes/namespace.yaml
+    - |
+        if [[ `kubectl -n backstagehttp get secrets |grep "backstage-secrets"` ==  "" ]]; then
+          echo "=======> Creating secret for backstage"
+          kubectl -n backstagehttp create secret generic backstage-secrets \
+          --from-literal=GITHUB_TOKEN=$GITHUB_TOKEN \
+          --from-literal=AZURE_TECHDOCS_STORAGE_KEY=$AZURE_TECHDOCS_STORAGE_KEY
+        else
+          echo "=======> Secret already present"
+        fi
+    - echo "====> Creating kubernetes backstage depoloyment and service. Calling template file"
+    - kubectl apply -n backstagehttp -f kubernetes/backstage.yaml -f kubernetes/backstage-service.yaml
     - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
     - VAR=$(echo ${VAR// /})
     - echo "====> Access Backstage on - http://$VAR"
