@@ -70,29 +70,31 @@ Deploy backend to AKS:
     - VAR=$(kubectl -n backstagehttp describe services |grep "LoadBalancer Ingress" |cut -d ":" -f2)
     - VAR=$(echo ${VAR// /})
     - echo "====> Access Backstage on - http://$VAR"
+    - echo "PUBLIC_IP=$VAR" >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
   rules:
     - changes:
         - terraform
         - pipelines-for-azure
-      #  - ".gitlab-ci.yml"
+        - ".gitlab-ci.yml"
       when: never
     - when: always
 
-.Deploy frontend to StaticWebApp:
+Deploy frontend to StaticWebApp:
   stage: deploy
   # image: registry.gitlab.com/static-web-apps/azure-static-web-apps-deploy
   image: mcr.microsoft.com/appsvc/staticappsclient:stable
+  dependencies:
+    - Deploy backend to AKS
   script:
-    - pwd
+    - sed -i "s/___BACKEND_SERVICE_IP___/$PUBLIC_IP/g" app-config.yaml
+    - cat app-config.yaml | grep $PUBLIC_IP
     - curl -sL https://deb.nodesource.com/setup_16.x | bash -
     - apt-get install -y nodejs
-    - node -v
-    - yarn -v
-    - ls -ltr
-    - echo $CI_PROJECT_DIR
     - yarn install
     - cd $APP_PATH
-    - pwd
     - yarn build
     - /bin/staticsites/StaticSitesClient upload --verbose --app $OUTPUT_PATH --skipAppBuild true --apiToken $DEPLOYMENT_TOKEN  
     - echo "App deployed successfully."
@@ -100,7 +102,7 @@ Deploy backend to AKS:
     - changes:
         - terraform
         - pipelines-for-azure
-       # - ".gitlab-ci.yml"
+        - ".gitlab-ci.yml"
         - kubernetes
       when: never
     - when: always
