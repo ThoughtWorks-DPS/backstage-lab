@@ -44,7 +44,7 @@ backend:
     store: memory
   cors:
     #origin: http://20.252.40.201
-    origin: http://___BACKEND_SERVICE_IP___
+    origin: https://kind-stone-071fa040f.1.azurestaticapps.net/
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
