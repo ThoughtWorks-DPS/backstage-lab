@@ -48,8 +48,8 @@ backend:
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
-    upgrade-insecure-requests: true
-    connect-src: ["'self'", 'http:', 'https:']
+    # upgrade-insecure-requests: true
+    # connect-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
   reading:
