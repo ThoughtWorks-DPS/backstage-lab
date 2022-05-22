@@ -4460,6 +4460,30 @@
   resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.3.1.tgz#b50a781709c81e10701004214340f25475a171a0"
   integrity sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==
 
+"@k-phoen/backstage-plugin-confluence-backend@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@k-phoen/backstage-plugin-confluence-backend/-/backstage-plugin-confluence-backend-0.0.7.tgz#f2a113b569de776d78c567db307abc916da7ad7c"
+  integrity sha512-GFzaAMNOq7BImui2VO9JP8dSODpZNvYeoRspCr6di/rhVdf2UaNpJeRVd9GuZAx+8g7Fn9NwwLAxnfO0IGYb4A==
+  dependencies:
+    "@backstage/config" "^1.0.0"
+    "@backstage/search-common" "^0.3.3"
+    node-fetch "^2.6.7"
+    p-limit "^3.1.0"
+    winston "^3.2.1"
+
+"@k-phoen/backstage-plugin-confluence@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@k-phoen/backstage-plugin-confluence/-/backstage-plugin-confluence-0.0.5.tgz#393c1158511d6701169abed50e1fe98bb951f894"
+  integrity sha512-4qTmrnrB5lhhTMY9P1RgddnbUU2lHuZ7vsSVSQWJ30tQcJFgTMU0UwVpGbMV29KH/K0wv++s45H+1r77+ONnig==
+  dependencies:
+    "@backstage/core-components" "^0.9.3"
+    "@backstage/core-plugin-api" "^1.0.1"
+    "@backstage/search-common" "^0.3.3"
+    "@material-ui/core" "^4.12.2"
+    react "^17.0.2"
+    react-dom "^17.0.2"
+    react-text-truncate "^0.18.0"
+
 "@keyv/redis@^2.2.3":
   version "2.3.5"
   resolved "https://registry.yarnpkg.com/@keyv/redis/-/redis-2.3.5.tgz#8ff4fecf9b5520cac2a346e6216db59474df3385"
@@ -11646,6 +11670,7 @@ evp_bytestokey@^1.0.0, evp_bytestokey@^1.0.3:
     "@backstage/plugin-tw-home" "^0.0.0"
     "@backstage/plugin-user-settings" "^0.4.3"
     "@backstage/theme" "^0.2.15"
+    "@k-phoen/backstage-plugin-confluence" "^0.0.5"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
     "@material-ui/lab" "4.0.0-alpha.57"

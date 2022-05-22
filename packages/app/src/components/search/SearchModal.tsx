@@ -106,6 +106,10 @@ export const SearchModal = ({ toggleModal }: { toggleModal: () => void }) => {
                   value: 'techdocs',
                   name: 'Documentation',
                 },
+                {
+                  value: 'confluence',
+                  name: 'Confluence',
+                },
               ]}
             />
           </Grid>

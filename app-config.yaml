@@ -182,6 +182,30 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 
+confluence:
+  # Confluence base URL for wiki API
+  # Typically: https://{org-name}.atlassian.net/wiki
+  wikiUrl: https://test-manish123.atlassian.net/wiki
+
+  # List of spaces to index
+  # See https://confluence.atlassian.com/conf59/spaces-792498593.html
+  spaces: [shopping]
+
+  # Authentication credentials towards Confluence API
+  auth:
+    username: manish.gowardipe@thoughtworks.com
+    # While Confluence supports BASIC authentication, using an API token is preferred.
+    # See: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+    password: ${ATLASSIAN_PASSWORD}
+
+search:
+  elasticsearch:
+    provider: elastic
+    cloudId: demo-ealstic:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJGRkN2UxYjVmNWY0MjQxOWViZDRkZTM0M2Q1M2U2YzVjJDFjNTFlZTcyMzYxOTQ2YTFhNzFmNjcxMDVkNzhlZDEy
+    auth:
+      username: elastic
+      password: ${ELASTIC_CO_PASSWORD}
+
 catalog:
   import:
     entityFilename: catalog-info.yaml

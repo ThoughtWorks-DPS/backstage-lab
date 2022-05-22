@@ -41,6 +41,7 @@ import { useSearch } from '@backstage/plugin-search-react';
 import { TechDocsSearchResultListItem } from '@backstage/plugin-techdocs';
 import { Grid, List, makeStyles, Paper, Theme } from '@material-ui/core';
 import React, { useContext } from 'react';
+import { ConfluenceResultListItem } from '@k-phoen/backstage-plugin-confluence';
 
 const useStyles = makeStyles((theme: Theme) => ({
   bar: {
@@ -87,6 +88,11 @@ const SearchPage = () => {
                   {
                     value: 'techdocs',
                     name: 'Documentation',
+                    icon: <DocsIcon />,
+                  },
+                  {
+                    value: 'confluence',
+                    name: 'Confluence',
                     icon: <DocsIcon />,
                   },
                 ]}
@@ -144,6 +150,13 @@ const SearchPage = () => {
                       case 'techdocs':
                         return (
                           <TechDocsSearchResultListItem
+                            key={document.location}
+                            result={document}
+                          />
+                        );
+                      case 'confluence':
+                        return (
+                          <ConfluenceResultListItem
                             key={document.location}
                             result={document}
                           />

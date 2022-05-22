@@ -60,6 +60,7 @@
     "@backstage/plugin-tech-insights-backend-module-jsonfc": "^0.1.15",
     "@backstage/plugin-todo-backend": "^0.1.28",
     "@internal/plugin-dataproduct-backend": "^0.1.0",
+    "@k-phoen/backstage-plugin-confluence-backend": "^0.0.7",
     "@gitbeaker/node": "^35.1.0",
     "@octokit/rest": "^18.5.3",
     "better-sqlite3": "^7.5.0",

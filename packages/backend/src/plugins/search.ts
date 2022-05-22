@@ -28,6 +28,7 @@ import { DefaultTechDocsCollatorFactory } from '@backstage/plugin-techdocs-backe
 import { Router } from 'express';
 import { Duration } from 'luxon';
 import { PluginEnvironment } from '../types';
+import { ConfluenceCollatorFactory } from '@k-phoen/backstage-plugin-confluence-backend';
 
 async function createSearchEngine(
   env: PluginEnvironment,
@@ -71,6 +72,13 @@ export default async function createPlugin(
     factory: DefaultCatalogCollatorFactory.fromConfig(env.config, {
       discovery: env.discovery,
       tokenManager: env.tokenManager,
+    }),
+  });
+
+  indexBuilder.addCollator({
+    schedule,
+    factory: ConfluenceCollatorFactory.fromConfig(env.config, {
+      logger: env.logger,
     }),
   });
 
