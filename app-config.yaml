@@ -34,7 +34,8 @@ backend:
   # this is a external ip of loadbalancer in portal
   # get this ip by
   # > kubectl get services -n <namespace>
-  baseUrl: http://20.252.40.201
+  #baseUrl: http://20.252.40.201
+  baseUrl: http://___BACKEND_SERVICE_IP___
   listen:
     port: 7007
   database:
@@ -47,11 +48,12 @@ backend:
   cache:
     store: memory
   cors:
-    origin: http://20.252.40.201
+    #origin: http://20.252.40.201
+    origin: https://kind-stone-071fa040f.1.azurestaticapps.net/
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   csp:
-    upgrade-insecure-requests: false
+    # upgrade-insecure-requests: true
     connect-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
     # Default Helmet Content-Security-Policy values can be removed by setting the key to false
@@ -198,6 +200,30 @@ integrations:
     #   rawBaseUrl: https://ghe.example.net/raw
     #   token: ${GHE_TOKEN}
 
+
+confluence:
+  # Confluence base URL for wiki API
+  # Typically: https://{org-name}.atlassian.net/wiki
+  wikiUrl: https://test-manish123.atlassian.net/wiki
+
+  # List of spaces to index
+  # See https://confluence.atlassian.com/conf59/spaces-792498593.html
+  spaces: [shopping]
+
+  # Authentication credentials towards Confluence API
+  auth:
+    username: manish.gowardipe@thoughtworks.com
+    # While Confluence supports BASIC authentication, using an API token is preferred.
+    # See: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+    password: ${ATLASSIAN_PASSWORD}
+
+search:
+  elasticsearch:
+    provider: elastic
+    cloudId: demo-ealstic:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvJGRkN2UxYjVmNWY0MjQxOWViZDRkZTM0M2Q1M2U2YzVjJDFjNTFlZTcyMzYxOTQ2YTFhNzFmNjcxMDVkNzhlZDEy
+    auth:
+      username: elastic
+      password: ${ELASTIC_CO_PASSWORD}
 
 catalog:
   import:

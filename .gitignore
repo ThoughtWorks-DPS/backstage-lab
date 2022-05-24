@@ -136,3 +136,6 @@ cypress/cypress/*
 
 # Possible leftover from build:api-reports
 tsconfig.tmp.json
+
+# terraform files
+terraform/.terraform/*
